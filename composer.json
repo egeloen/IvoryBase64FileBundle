@@ -18,7 +18,7 @@
     "require-dev": {
         "doctrine/dbal": "^2.2",
         "jms/serializer-bundle": "^1.1",
-        "phpunit/phpunit": "^4.0",
+        "phpunit/phpunit": "^4.0|^5.0",
         "symfony/form": "^2.3|^3.0",
         "symfony/phpunit-bridge": "~2.7|~3.0",
         "symfony/validator": "^2.3|^3.0",
