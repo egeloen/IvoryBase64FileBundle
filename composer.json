@@ -13,13 +13,13 @@
     "require": {
         "php": ">=5.3.3",
         "symfony/dependency-injection": "^2.3|^3.0",
-        "symfony/form": "^2.3|^3.0",
         "symfony/framework-bundle": "^2.3|^3.0"
     },
     "require-dev": {
         "doctrine/dbal": "^2.2",
         "jms/serializer-bundle": "^1.1",
-        "phpunit/phpunit": "^5.0",
+        "phpunit/phpunit": "^4.0",
+        "symfony/form": "^2.3|^3.0",
         "symfony/phpunit-bridge": "~2.7|~3.0",
         "symfony/validator": "^2.3|^3.0",
         "symfony/yaml": "^2.3|^3.0"
@@ -27,6 +27,7 @@
     "suggest": {
         "doctrine/dbal": "Allow to persist a base64 file",
         "jms/serializer-bundle": "Allow to serialize a base64 file",
+        "symfony/form": "Allow to upload a base64 file",
         "symfony/yaml": "Allow to serialize a base64 file to Yaml"
     },
     "autoload": {
