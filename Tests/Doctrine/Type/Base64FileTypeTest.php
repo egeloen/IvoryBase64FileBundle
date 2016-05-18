@@ -91,7 +91,17 @@ class Base64FileTypeTest extends \PHPUnit_Framework_TestCase
      */
     private function createPlatformMock()
     {
-        return $this->getMock('Doctrine\DBAL\Platforms\AbstractPlatform');
+        return $this->getMock('Doctrine\DBAL\Platforms\AbstractPlatform', array(
+            '_getCommonIntegerTypeDeclarationSQL',
+            'initializeDoctrineTypeMappings',
+            'getBooleanTypeDeclarationSQL',
+            'getIntegerTypeDeclarationSQL',
+            'getBigIntTypeDeclarationSQL',
+            'getSmallIntTypeDeclarationSQL',
+            'getClobTypeDeclarationSQL',
+            'getBlobTypeDeclarationSQL',
+            'getName',
+        ));
     }
 
     /**
