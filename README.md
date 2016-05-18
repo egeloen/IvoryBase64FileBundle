@@ -11,7 +11,7 @@
 [![License](https://poser.pugx.org/egeloen/base64-file-bundle/license.svg)](https://packagist.org/packages/egeloen/base64-file-bundle)
 
 The bundle provides a way to upload base64 file transparently through the Symfony2 form component. It
-adds a new form option named `base64` on the file type which, when enabled, will convert you base54 
+adds a new form option named `base64` on the file type which, when enabled, will convert you base64 
 input into a regular file.
  
 Additionally, it also provides a Doctrine type and a JMS serializer handler.
