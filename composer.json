@@ -1,0 +1,40 @@
+{
+    "name": "egeloen/base64-file-bundle",
+    "type": "symfony-bundle",
+    "description": "Provides a base64 file support for your Symfony2 Project.",
+    "keywords": [ "base64", "file" ],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Eric GELOEN",
+            "email": "geloen.eric@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.3.3",
+        "symfony/dependency-injection": "^2.3|^3.0",
+        "symfony/form": "^2.3|^3.0",
+        "symfony/framework-bundle": "^2.3|^3.0"
+    },
+    "require-dev": {
+        "doctrine/dbal": "^2.2",
+        "jms/serializer-bundle": "^1.1",
+        "phpunit/phpunit": "^5.0",
+        "symfony/phpunit-bridge": "~2.7|~3.0",
+        "symfony/validator": "^2.3|^3.0",
+        "symfony/yaml": "^2.3|^3.0"
+    },
+    "suggest": {
+        "doctrine/dbal": "Allow to persist a base64 file",
+        "jms/serializer-bundle": "Allow to serialize a base64 file",
+        "symfony/yaml": "Allow to serialize a base64 file to Yaml"
+    },
+    "autoload": {
+        "psr-4": { "Ivory\\Base64FileBundle\\": "" }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "1.0-dev"
+        }
+    }
+}
