@@ -63,7 +63,7 @@ abstract class AbstractIvoryBase64FileExtensionTest extends \PHPUnit_Framework_T
 
         $tag = $this->container->getDefinition($extension)->getTag('form.type_extension');
 
-        if (Kernel::VERSION_ID >= 30000) {
+        if (Kernel::VERSION_ID >= 20800) {
             $this->assertSame(array(array(
                 'extended_type' => 'Symfony\Component\Form\Extension\Core\Type\FileType',
                 'extended-type' => 'Symfony\Component\Form\Extension\Core\Type\FileType',

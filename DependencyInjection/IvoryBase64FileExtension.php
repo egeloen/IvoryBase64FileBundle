@@ -33,7 +33,7 @@ class IvoryBase64FileExtension extends ConfigurableExtension
             $loader->load($resource.'.xml');
         }
 
-        if ($config['form'] && Kernel::VERSION_ID < 30000) {
+        if ($config['form'] && Kernel::VERSION_ID < 20800) {
             $container->getDefinition('ivory.base64_file.form.extension')
                 ->clearTag('form.type_extension')
                 ->addTag('form.type_extension', array('alias' => 'file'));
