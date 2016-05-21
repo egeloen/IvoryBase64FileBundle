@@ -107,6 +107,15 @@ class Base64FileExtensionTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * @expectedException \Symfony\Component\OptionsResolver\Exception\InvalidOptionsException
+     * @expectedExceptionMessage The option "base64" with value "foo" is expected to be of type "bool"
+     */
+    public function testInvalidBase64Option()
+    {
+        $this->factory->create($this->formType, null, array('base64' => 'foo'));
+    }
+
+    /**
      * @return string
      */
     private function getBase64Data()
