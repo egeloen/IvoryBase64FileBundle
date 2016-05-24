@@ -1,2 +1,2 @@
 ivory_base64_file:
-    form: true
+    default: true

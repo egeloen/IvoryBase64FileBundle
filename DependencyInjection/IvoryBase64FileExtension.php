@@ -29,34 +29,19 @@ class IvoryBase64FileExtension extends ConfigurableExtension
     {
         $loader = new XmlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
 
-        foreach ($this->resolveResources($config) as $resource) {
+        foreach (['form'] as $resource) {
             $loader->load($resource.'.xml');
         }
 
-        if ($config['form'] && Kernel::VERSION_ID < 20800) {
-            $container->getDefinition('ivory.base64_file.form.extension')
+        $container
+            ->getDefinition($formExtension = 'ivory.base64_file.form.extension')
+            ->addArgument($config['default']);
+
+        if (Kernel::VERSION_ID < 20800) {
+            $container
+                ->getDefinition($formExtension)
                 ->clearTag('form.type_extension')
-                ->addTag('form.type_extension', array('alias' => 'file'));
+                ->addTag('form.type_extension', ['alias' => 'file']);
         }
-    }
-
-    /**
-     * @param mixed[] $config
-     *
-     * @return string[]
-     */
-    private function resolveResources(array $config)
-    {
-        $resources = array();
-
-        if ($config['form']) {
-            $resources[] = 'form';
-        }
-
-        if ($config['serializer']) {
-            $resources[] = 'serializer';
-        }
-
-        return $resources;
     }
 }

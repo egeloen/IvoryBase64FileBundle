@@ -1,76 +1,59 @@
 # Usage
 
-## Form
+## Configuration
 
-The main purpose of the bundle is to allow to upload base64 encoded file through the form component.
-By default, this feature is disabled and you need to enable it in your configuration:
+The main purpose of the bundle is to allow to upload base 64 encoded file through the form component.
+By registering the bundle in the kernel, this feature is available but it is disabled by default in 
+order to keep the default file type behavior. If you want to switch this behavior for all file types, 
+you can configure the bundle with the following:
 
 ``` yaml
 # app/config/config.yml
 ivory_base64_file:
-    form: true
+    default: true
 ```
 
-When doing so, a form extension has been attached to the form component which will introduce a new 
-option called `base64` on the file type. By default, this option is set to false, so, if you want 
-to send base64 encoded file, you will need to enable this option:
+## Form
+
+The bundle introduces a new option called `base64` on the file type. If you don't configure the bundle 
+to use the base 64 behavior by default, you will need to explicitly enable this option, otherwise, 
+you don't need to specify it except if you want to disable the feature:
  
 ``` php
-$builder->add('field', FileType::class, array('base64' => true));
+$builder->add('field', FileType::class, ['base64' => true]);
 ```
 
-That's all, your form type will now be able to deal with a base64 encoded value. 
+## Payload
 
-Technically, an `Ivory\Base64FileBundle\Model\Base64File` will be created under the hood. This class 
-extends the `Symfony\Component\HttpFoundation\File\File` and create a regular file through the 
-primitive `tmpfile`. That mean you can put file assertion on this field as well as moving the file 
-where you want on your filesystem as you would do with a regular upload.
+The bundle needs a specific payload structure in order to work, the following is the minimal one:
 
-## Doctrine
-
-The bundle also provides a new Doctrine DBAL type allowing you to automatically save an 
-`Ivory\Base64FileBundle\Model\Base64File` in a `BLOB` type and re-create an 
-`Ivory\Base64FileBundle\Model\Base64File` from a `BLOB` type.
-
-To enable this feature, you will need to register this new type in your configuration:
-
-``` yaml
-# app/config/config.yml
-doctrine:
-    dbal:
-        types:
-            base64_file: Ivory\Base64FileBundle\Doctrine\Type\Base64FileType
-```
-
-And, you will also need to register this new type programmatically in one of your bundle:
- 
-``` php
-namespace Acme\DemoBundle;
-
-use Doctrine\DBAL\Types\Type;
-use Symfony\Component\HttpKernel\Bundle\Bundle;
-
-class AcmeDemoBundle extends Bundle
+``` json
 {
-    public function boot()
-    {
-        Type::addType('base64_file', 'Ivory\Base64FileBundle\Doctrine\Type\Base64FileType');
+    "field": {
+        "name": "filename.png",
+        "value": "iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAABh0lEQVQ4T23TO8iPYR..."
     }
 }
 ```
 
-That's all, you can now use the `base64_file` type in your metadata.
+If you want you can also provide more informations:
 
-## Serializer
-
-The bundle also supports to serialize an `Ivory\Base64FileBundle\Model\Base64File` or a
-`Symfony\Component\HttpFoundation\File\File` into a base64 encoded representation. By default,
-this feature is disabled, so if you want to use it you need to explicitly enable it:
-
-``` yaml
-# app/config/config.yml
-ivory_base64_file:
-    serializer: true
+``` json
+{
+    "field": {
+        "name": "filename.png",
+        "value": "iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAABh0lEQVQ4T23TO8iPYR...",
+        "mimeType": "image/png",
+        "size": 12345
+    }
+}
 ```
 
-That's all, the serializer will now convert your file into a base64 representation.
+## Technical details
+
+Technically, an `Ivory\Base64FileBundle\Model\UploadedBase64File` will be created under the hood and 
+then, populated into your model. This class extends the `Symfony\Component\HttpFoundation\File\UploadedFile` 
+and create a regular file through the primitive `tmpfile`. That means your have a regular file in 
+your temporary folder (/tmp) during the request lifecycle (the file is automatically removed at the end). 
+Then, you can put file assertions on this field as well as moving the file where you want on your 
+filesystem as you would do with a regular upload.

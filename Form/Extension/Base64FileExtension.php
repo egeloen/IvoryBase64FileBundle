@@ -24,12 +24,25 @@ use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 class Base64FileExtension extends AbstractTypeExtension
 {
     /**
+     * @var bool
+     */
+    private $base64;
+
+    /**
+     * @param bool $base64
+     */
+    public function __construct($base64)
+    {
+        $this->base64 = $base64;
+    }
+
+    /**
      * {@inheritdoc}
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         if ($options['base64']) {
-            $builder->addModelTransformer(new Base64FileTransformer());
+            $builder->addViewTransformer(new Base64FileTransformer());
         }
     }
 
@@ -47,7 +60,7 @@ class Base64FileExtension extends AbstractTypeExtension
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'base64'     => false,
+            'base64'     => $this->base64,
             'data_class' => function (Options $options, $value) {
                 return !$options['base64'] ? $value : null;
             },
