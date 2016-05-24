@@ -42,19 +42,28 @@ abstract class AbstractIvoryBase64FileExtensionTest extends \PHPUnit_Framework_T
      */
     abstract protected function loadConfiguration(ContainerBuilder $container, $configuration);
 
-    public function testFormDisabled()
+    public function testDefaultForm()
     {
         $this->container->compile();
 
-        $this->assertFalse($this->container->has('ivory.base_64.form.extension'));
+        $this->assertForm(false);
     }
 
-    public function testFormEnabled()
+    public function testEnabledForm()
     {
-        $this->loadConfiguration($this->container, 'form');
+        $this->loadConfiguration($this->container, 'enabled');
         $this->container->compile();
 
+        $this->assertForm(true);
+    }
+
+    /**
+     * @param bool $enabled
+     */
+    private function assertForm($enabled)
+    {
         $this->assertTrue($this->container->has($extension = 'ivory.base64_file.form.extension'));
+        $this->assertSame($enabled, $this->container->getDefinition($extension)->getArgument(0));
 
         $this->assertInstanceOf(
             'Ivory\Base64FileBundle\Form\Extension\Base64FileExtension',
@@ -64,37 +73,12 @@ abstract class AbstractIvoryBase64FileExtensionTest extends \PHPUnit_Framework_T
         $tag = $this->container->getDefinition($extension)->getTag('form.type_extension');
 
         if (Kernel::VERSION_ID >= 20800) {
-            $this->assertSame(array(array(
+            $this->assertSame([[
                 'extended_type' => 'Symfony\Component\Form\Extension\Core\Type\FileType',
                 'extended-type' => 'Symfony\Component\Form\Extension\Core\Type\FileType',
-            )), $tag);
+            ]], $tag);
         } else {
-            $this->assertSame(array(array('alias' => 'file')), $tag);
+            $this->assertSame([['alias' => 'file']], $tag);
         }
-    }
-
-    public function testSerializerDisabled()
-    {
-        $this->container->compile();
-
-        $this->assertFalse($this->container->has('ivory.base_64.serializer.handler'));
-    }
-
-    public function testSerializerEnabled()
-    {
-        $this->loadConfiguration($this->container, 'serializer');
-        $this->container->compile();
-
-        $this->assertTrue($this->container->has($handler = 'ivory.base_64.serializer.handler'));
-
-        $this->assertInstanceOf(
-            'Ivory\Base64FileBundle\Serializer\Handler\Base64FileHandler',
-            $this->container->get($handler)
-        );
-
-        $this->assertSame(
-            array(array()),
-            $this->container->getDefinition($handler)->getTag('jms_serializer.subscribing_handler')
-        );
     }
 }

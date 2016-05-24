@@ -11,7 +11,8 @@
 
 namespace Ivory\Base64FileBundle\Form\DataTransformer;
 
-use Ivory\Base64FileBundle\Model\Base64File;
+use Ivory\Base64FileBundle\Model\Base64FileInterface;
+use Ivory\Base64FileBundle\Model\UploadedBase64File;
 use Symfony\Component\Form\DataTransformerInterface;
 use Symfony\Component\Form\Exception\TransformationFailedException;
 
@@ -26,17 +27,29 @@ class Base64FileTransformer implements DataTransformerInterface
     public function transform($value)
     {
         if ($value === null) {
-            return;
+            return [
+                'value'    => null,
+                'name'     => null,
+                'mimeType' => null,
+                'size'     => null,
+            ];
         }
 
-        if (!$value instanceof Base64File) {
+        if (!$value instanceof Base64FileInterface) {
             throw new TransformationFailedException(sprintf(
-                'Expected an "Ivory\Base64Bundle\Model\Base64File", got "%s".',
-                is_object($value) ? get_class($value) : gettype($value)
+                'Expected an "Ivory\Base64Bundle\Model\Base64FileInterface", got "%s".',
+                $this->getVariableType($value)
             ));
         }
 
-        return $value->getData(true, false);
+        $uploadedFile = $value instanceof UploadedBase64File;
+
+        return [
+            'value'    => $value->getData(true, false),
+            'name'     => $uploadedFile ? $value->getClientOriginalName() : null,
+            'mimeType' => $uploadedFile ? $value->getClientMimeType() : $value->getMimeType(),
+            'size'     => $uploadedFile ? $value->getClientSize() : $value->getSize(),
+        ];
     }
 
     /**
@@ -48,10 +61,40 @@ class Base64FileTransformer implements DataTransformerInterface
             return;
         }
 
+        if (!is_array($value)) {
+            throw new TransformationFailedException(sprintf(
+                'Expected an array, got "%s".',
+                $this->getVariableType($value)
+            ));
+        }
+
+        if (!isset($value['name'])) {
+            throw new TransformationFailedException('Missing base 64 file name.');
+        }
+
+        if (!isset($value['value'])) {
+            throw new TransformationFailedException('Missing base 64 file value.');
+        }
+
         try {
-            return new Base64File($value);
+            return new UploadedBase64File(
+                $value['value'],
+                $value['name'],
+                isset($value['mimeType']) ? $value['mimeType'] : null,
+                isset($value['size']) ? $value['size'] : null
+            );
         } catch (\Exception $e) {
             throw new TransformationFailedException($e->getMessage());
         }
+    }
+
+    /**
+     * @param mixed $variable
+     *
+     * @return string
+     */
+    private function getVariableType($variable)
+    {
+        return is_object($variable) ? get_class($variable) : gettype($variable);
     }
 }

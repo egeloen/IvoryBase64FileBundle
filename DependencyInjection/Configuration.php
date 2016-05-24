@@ -29,8 +29,7 @@ class Configuration implements ConfigurationInterface
 
         $builder
             ->children()
-                ->booleanNode('form')->defaultValue(false)->end()
-                ->booleanNode('serializer')->defaultValue(false)->end()
+                ->booleanNode('default')->defaultValue(false)->end()
             ->end();
 
         return $treeBuilder;

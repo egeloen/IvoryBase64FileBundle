@@ -10,11 +10,22 @@
 [![Total Downloads](https://poser.pugx.org/egeloen/base64-file-bundle/downloads.svg)](https://packagist.org/packages/egeloen/base64-file-bundle)
 [![License](https://poser.pugx.org/egeloen/base64-file-bundle/license.svg)](https://packagist.org/packages/egeloen/base64-file-bundle)
 
+## Overview
+
 The bundle provides a way to upload base64 file transparently through the Symfony2 form component. It
 adds a new form option named `base64` on the file type which, when enabled, will convert you base64 
-input into a regular file.
- 
-Additionally, it also provides a Doctrine type and a JMS serializer handler.
+input into a regular file. It is especially useful when you're using the [FOSRestBundle](http://symfony.com/doc/master/bundles/FOSRestBundle/index.html).
+
+For example, the following payload will be handled by the bundle:
+
+``` json
+{
+    "field": {
+        "name": "filename.png",
+        "value": "iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAABh0lEQVQ4T23TO8iPYR..."
+    }
+}
+```
 
 ## Documentation
 
