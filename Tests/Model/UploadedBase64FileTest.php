@@ -65,60 +65,116 @@ class UploadedBase64FileTest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf('Symfony\Component\HttpFoundation\File\UploadedFile', $file);
     }
 
-    public function testFromResourceToBase64Resource()
+    public function testFromBase64ResourceToBase64Resource()
     {
         $file = new UploadedBase64File($this->base64, $this->name);
 
         $this->assertSame($this->getBase64String(), $this->getStreamContent($file->getData()));
     }
 
-    public function testFromResourceToBase64String()
+    public function testFromBase64ResourceToBase64String()
     {
         $file = new UploadedBase64File($this->base64, $this->name);
 
         $this->assertSame($this->getBase64String(), $file->getData(true, false));
     }
 
-    public function testFromResourceToBinaryResource()
+    public function testFromBase64ResourceToBinaryResource()
     {
         $file = new UploadedBase64File($this->base64, $this->name);
 
         $this->assertSame($this->getBinaryString(), $this->getStreamContent($file->getData(false)));
     }
 
-    public function testFromResourceToBinaryString()
+    public function testFromBase64ResourceToBinaryString()
     {
         $file = new UploadedBase64File($this->base64, $this->name);
 
         $this->assertSame($this->getBinaryString(), $file->getData(false, false));
     }
 
-    public function testFromStringToBase64Resource()
+    public function testFromBase64StringToBase64Resource()
     {
         $file = new UploadedBase64File($original = $this->getBase64String(), $this->name);
 
         $this->assertSame($original, $this->getStreamContent($file->getData()));
     }
 
-    public function testFromStringToBase64String()
+    public function testFromBase64StringToBase64String()
     {
         $file = new UploadedBase64File($original = $this->getBase64String(), $this->name);
 
         $this->assertSame($original, $file->getData(true, false));
     }
 
-    public function testFromStringToBinaryResource()
+    public function testFromBase64StringToBinaryResource()
     {
         $file = new UploadedBase64File($this->getBase64String(), $this->name);
 
         $this->assertSame($this->getBinaryString(), $this->getStreamContent($file->getData(false)));
     }
 
-    public function testFromStringToBinaryString()
+    public function testFromBase64StringToBinaryString()
     {
         $file = new UploadedBase64File($this->getBase64String(), $this->name);
 
         $this->assertSame($this->getBinaryString(), $file->getData(false, false));
+    }
+
+    public function testFromBinaryResourceToBase64Resource()
+    {
+        $file = new UploadedBase64File($this->binary, $this->name, null, null, null, false);
+
+        $this->assertSame($this->getBase64String(), $this->getStreamContent($file->getData()));
+    }
+
+    public function testFromBinaryResourceToBase64String()
+    {
+        $file = new UploadedBase64File($this->binary, $this->name, null, null, null, false);
+
+        $this->assertSame($this->getBase64String(), $file->getData(true, false));
+    }
+
+    public function testFromBinaryResourceToBinaryResource()
+    {
+        $file = new UploadedBase64File($this->binary, $this->name, null, null, null, false);
+
+        $this->assertSame($this->getBinaryString(), $this->getStreamContent($file->getData(false)));
+    }
+
+    public function testFromBinaryResourceToBinaryString()
+    {
+        $file = new UploadedBase64File($this->binary, $this->name, null, null, null, false);
+
+        $this->assertSame($this->getBinaryString(), $file->getData(false, false));
+    }
+
+    public function testFromBinaryStringToBase64Resource()
+    {
+        $file = new UploadedBase64File($this->getBinaryString(), $this->name, null, null, null, false);
+
+        $this->assertSame($this->getBase64String(), $this->getStreamContent($file->getData()));
+    }
+
+    public function testFromBinaryStringToBase64String()
+    {
+        $file = new UploadedBase64File($this->getBinaryString(), $this->name, null, null, null, false);
+
+        $this->assertSame($this->getBase64String(), $file->getData(true, false));
+    }
+
+    public function testFromBinaryStringToBinaryResource()
+    {
+        $file = new UploadedBase64File($original = $this->getBinaryString(), $this->name, null, null, null, false);
+
+        $this->assertSame($original, $this->getStreamContent($file->getData(false)));
+    }
+
+    public function testFromBinaryStringToBinaryString()
+    {
+        $file = new UploadedBase64File($original = $this->getBinaryString(), $this->name, null, null, null, false);
+
+        $this->assertSame($original, $file->getData(false, false));
     }
 
     /**
