@@ -123,11 +123,22 @@ trait Base64FileTrait
      */
     private function copyStreamToStream($from, $to)
     {
-        $fromPosition = ftell($from);
+        $metadata = stream_get_meta_data($from);
+        $seekable = $metadata['seekable'];
+
         $toPosition = ftell($to);
-        rewind($from);
+
+        if ($seekable) {
+            $fromPosition = ftell($from);
+            rewind($from);
+        }
+
         $success = @stream_copy_to_stream($from, $to);
-        fseek($from, $fromPosition);
+
+        if (isset($fromPosition)) {
+            fseek($from, $fromPosition);
+        }
+
         fseek($to, $toPosition);
 
         if (!$success) {
