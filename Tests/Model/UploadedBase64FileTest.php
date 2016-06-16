@@ -65,6 +65,13 @@ class UploadedBase64FileTest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf('Symfony\Component\HttpFoundation\File\UploadedFile', $file);
     }
 
+    public function testValidity()
+    {
+        $file = new UploadedBase64File($this->base64, $this->name);
+
+        $this->assertTrue($file->isValid());
+    }
+
     public function testFromBase64ResourceToBase64Resource()
     {
         $file = new UploadedBase64File($this->base64, $this->name);

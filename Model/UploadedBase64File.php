@@ -29,20 +29,12 @@ class UploadedBase64File extends UploadedFile implements Base64FileInterface
      * @param int|null        $size
      * @param int|null        $error
      * @param bool            $encoded
-     * @param bool            $test
      */
-    public function __construct(
-        $value,
-        $originalName,
-        $mimeType = null,
-        $size = null,
-        $error = null,
-        $encoded = true,
-        $test = false
-    ) {
+    public function __construct($value, $originalName, $mimeType = null, $size = null, $error = null, $encoded = true)
+    {
         $this->constructTrait($value, $encoded);
         $metadata = stream_get_meta_data($this->resource);
 
-        parent::__construct($metadata['uri'], $originalName, $mimeType, $size, $error, $test);
+        parent::__construct($metadata['uri'], $originalName, $mimeType, $size, $error, true);
     }
 }
