@@ -18,9 +18,7 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
  */
 class UploadedBase64File extends UploadedFile implements Base64FileInterface
 {
-    use Base64FileTrait {
-        __construct as private constructTrait;
-    }
+    use Base64FileTrait;
 
     /**
      * @param string|resource $value
@@ -32,7 +30,7 @@ class UploadedBase64File extends UploadedFile implements Base64FileInterface
      */
     public function __construct($value, $originalName, $mimeType = null, $size = null, $error = null, $encoded = true)
     {
-        $this->constructTrait($value, $encoded);
+        $this->load($value, $encoded);
         $metadata = stream_get_meta_data($this->resource);
 
         parent::__construct($metadata['uri'], $originalName, $mimeType, $size, $error, true);

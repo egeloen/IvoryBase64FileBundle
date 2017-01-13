@@ -84,7 +84,7 @@ class Base64FileTransformer implements DataTransformerInterface
                 isset($value['size']) ? $value['size'] : null
             );
         } catch (\Exception $e) {
-            throw new TransformationFailedException($e->getMessage());
+            throw new TransformationFailedException($e->getMessage(), 0, $e);
         }
     }
 

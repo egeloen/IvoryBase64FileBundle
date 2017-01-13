@@ -25,7 +25,7 @@ trait Base64FileTrait
      * @param string|resource $value
      * @param bool            $encoded
      */
-    public function __construct($value, $encoded = true)
+    private function load($value, $encoded = true)
     {
         $this->resource = tmpfile();
 

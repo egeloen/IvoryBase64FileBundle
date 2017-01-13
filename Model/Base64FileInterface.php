@@ -17,6 +17,14 @@ namespace Ivory\Base64FileBundle\Model;
 interface Base64FileInterface
 {
     /**
+     * @param bool $encoded
+     * @param bool $asResource
+     *
+     * @return resource|string
+     */
+    public function getData($encoded = true, $asResource = true);
+
+    /**
      * @return int
      */
     public function getSize();
