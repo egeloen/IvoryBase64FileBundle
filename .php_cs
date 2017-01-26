@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of the Ivory Serializer package.
+ * This file is part of the Ivory Base64 File package.
  *
  * (c) Eric GELOEN <geloen.eric@gmail.com>
  *
