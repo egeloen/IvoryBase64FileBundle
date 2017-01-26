@@ -26,9 +26,6 @@ class Base64File extends File implements Base64FileInterface
      */
     public function __construct($value, $encoded = true)
     {
-        $this->load($value, $encoded);
-        $metadata = stream_get_meta_data($this->resource);
-
-        parent::__construct($metadata['uri']);
+        parent::__construct($this->load($value, $encoded));
     }
 }

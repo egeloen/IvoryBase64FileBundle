@@ -17,6 +17,11 @@ namespace Ivory\Base64FileBundle\Model;
 trait Base64FileTrait
 {
     /**
+     * @var string
+     */
+    private $path;
+
+    /**
      * @var resource
      */
     private $resource;
@@ -24,10 +29,13 @@ trait Base64FileTrait
     /**
      * @param string|resource $value
      * @param bool            $encoded
+     *
+     * @return string
      */
     private function load($value, $encoded = true)
     {
-        $this->resource = tmpfile();
+        $this->path = tempnam(sys_get_temp_dir(), 'ivory_base64');
+        $this->resource = fopen($this->path, 'w+');
 
         if ($encoded) {
             $filter = stream_filter_append($this->resource, 'convert.base64-decode', STREAM_FILTER_WRITE);
@@ -55,6 +63,8 @@ trait Base64FileTrait
         }
 
         fflush($this->resource);
+
+        return $this->path;
     }
 
     /**
@@ -64,6 +74,10 @@ trait Base64FileTrait
     {
         if (is_resource($this->resource)) {
             fclose($this->resource);
+        }
+
+        if (file_exists($this->path)) {
+            unlink($this->path);
         }
     }
 

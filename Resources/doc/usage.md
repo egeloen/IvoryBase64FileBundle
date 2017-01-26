@@ -53,7 +53,7 @@ If you want you can also provide more informations:
 
 Technically, an `Ivory\Base64FileBundle\Model\UploadedBase64File` will be created under the hood and 
 then, populated into your model. This class extends the `Symfony\Component\HttpFoundation\File\UploadedFile` 
-and create a regular file through the primitive `tmpfile`. That means your have a regular file in 
-your temporary folder (/tmp) during the request lifecycle (the file is automatically removed at the end). 
-Then, you can put file assertions on this field as well as moving the file where you want on your 
-filesystem as you would do with a regular upload.
+and create a regular file through the primitive `tempnam` and `fopen` in order to be compatible with both PHP and HHVM. 
+That means your have a regular file in your temporary folder (/tmp) during the request lifecycle (the file is 
+automatically removed at the end). Then, you can put file assertions on this field as well as moving the file where you 
+want on your filesystem as you would do with a regular upload.
