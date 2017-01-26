@@ -69,7 +69,7 @@ class Base64FileExtension extends AbstractTypeExtension
         if (method_exists($resolver, 'setDefault')) {
             $resolver->setAllowedTypes('base64', 'bool');
         } else {
-            $resolver->setAllowedTypes(array('base64' => 'bool'));
+            $resolver->setAllowedTypes(['base64' => 'bool']);
         }
     }
 
