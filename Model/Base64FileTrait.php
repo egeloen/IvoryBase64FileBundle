@@ -27,47 +27,6 @@ trait Base64FileTrait
     private $resource;
 
     /**
-     * @param string|resource $value
-     * @param bool            $encoded
-     *
-     * @return string
-     */
-    private function load($value, $encoded = true)
-    {
-        $this->path = tempnam(sys_get_temp_dir(), 'ivory_base64');
-        $this->resource = fopen($this->path, 'w+');
-
-        if ($encoded) {
-            $filter = stream_filter_append($this->resource, 'convert.base64-decode', STREAM_FILTER_WRITE);
-        }
-
-        try {
-            if (is_string($value)) {
-                $this->copyStringToStream($value, $this->resource);
-            } elseif (is_resource($value)) {
-                $this->copyStreamToStream($value, $this->resource);
-            } else {
-                throw new \InvalidArgumentException(sprintf(
-                    'The base64 file value must be a string or a resource, got "%s".',
-                    gettype($value)
-                ));
-            }
-        } catch (\Exception $e) {
-            fclose($this->resource);
-
-            throw $e;
-        }
-
-        if (isset($filter)) {
-            stream_filter_remove($filter);
-        }
-
-        fflush($this->resource);
-
-        return $this->path;
-    }
-
-    /**
      * {@inheritdoc}
      */
     public function __destruct()
@@ -109,6 +68,47 @@ trait Base64FileTrait
         fclose($resource);
 
         return $content;
+    }
+
+    /**
+     * @param string|resource $value
+     * @param bool            $encoded
+     *
+     * @return string
+     */
+    private function load($value, $encoded = true)
+    {
+        $this->path = tempnam(sys_get_temp_dir(), 'ivory_base64');
+        $this->resource = fopen($this->path, 'w+');
+
+        if ($encoded) {
+            $filter = stream_filter_append($this->resource, 'convert.base64-decode', STREAM_FILTER_WRITE);
+        }
+
+        try {
+            if (is_string($value)) {
+                $this->copyStringToStream($value, $this->resource);
+            } elseif (is_resource($value)) {
+                $this->copyStreamToStream($value, $this->resource);
+            } else {
+                throw new \InvalidArgumentException(sprintf(
+                    'The base64 file value must be a string or a resource, got "%s".',
+                    gettype($value)
+                ));
+            }
+        } catch (\Exception $e) {
+            fclose($this->resource);
+
+            throw $e;
+        }
+
+        if (isset($filter)) {
+            stream_filter_remove($filter);
+        }
+
+        fflush($this->resource);
+
+        return $this->path;
     }
 
     /**
