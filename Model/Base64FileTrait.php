@@ -122,12 +122,7 @@ trait Base64FileTrait
         fseek($to, $toPosition);
 
         if (!$success) {
-            $error = error_get_last();
-
-            throw new \RuntimeException(sprintf(
-                'An error occurred while copying the value (%s).',
-                $error['message']
-            ));
+            throw $this->createCopyException();
         }
     }
 
@@ -156,12 +151,20 @@ trait Base64FileTrait
         fseek($to, $toPosition);
 
         if (!$success) {
-            $error = error_get_last();
-
-            throw new \RuntimeException(sprintf(
-                'An error occurred while copying the value (%s).',
-                $error['message']
-            ));
+            throw $this->createCopyException();
         }
+    }
+
+    /**
+     * @return \RuntimeException
+     */
+    private function createCopyException()
+    {
+        $error = error_get_last();
+
+        return new \RuntimeException(sprintf(
+            'An error occurred while copying the value (%s).',
+            $error['message']
+        ));
     }
 }
