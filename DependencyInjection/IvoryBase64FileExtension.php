@@ -14,8 +14,8 @@ namespace Ivory\Base64FileBundle\DependencyInjection;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Loader\XmlFileLoader;
+use Symfony\Component\Form\AbstractType;
 use Symfony\Component\HttpKernel\DependencyInjection\ConfigurableExtension;
-use Symfony\Component\HttpKernel\Kernel;
 
 /**
  * @author GeLo <geloen.eric@gmail.com>
@@ -37,7 +37,7 @@ class IvoryBase64FileExtension extends ConfigurableExtension
             ->getDefinition($formExtension = 'ivory.base64_file.form.extension')
             ->addArgument($config['default']);
 
-        if (Kernel::VERSION_ID < 20800) {
+        if (!method_exists(AbstractType::class, 'getBlockPrefix')) {
             $container
                 ->getDefinition($formExtension)
                 ->clearTag('form.type_extension')

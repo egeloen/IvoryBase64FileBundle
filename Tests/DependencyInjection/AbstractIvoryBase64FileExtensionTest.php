@@ -12,8 +12,10 @@
 namespace Ivory\Base64FileBundle\Tests\DependencyInjection;
 
 use Ivory\Base64FileBundle\DependencyInjection\IvoryBase64FileExtension;
+use Ivory\Base64FileBundle\Form\Extension\Base64FileExtension;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Symfony\Component\HttpKernel\Kernel;
+use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 
 /**
  * @author GeLo <geloen.eric@gmail.com>
@@ -65,17 +67,13 @@ abstract class AbstractIvoryBase64FileExtensionTest extends \PHPUnit_Framework_T
         $this->assertTrue($this->container->has($extension = 'ivory.base64_file.form.extension'));
         $this->assertSame($enabled, $this->container->getDefinition($extension)->getArgument(0));
 
-        $this->assertInstanceOf(
-            'Ivory\Base64FileBundle\Form\Extension\Base64FileExtension',
-            $this->container->get($extension)
-        );
-
+        $this->assertInstanceOf(Base64FileExtension::class, $this->container->get($extension));
         $tag = $this->container->getDefinition($extension)->getTag('form.type_extension');
 
-        if (Kernel::VERSION_ID >= 20800) {
+        if (method_exists(AbstractType::class, 'getBlockPrefix')) {
             $this->assertSame([[
-                'extended_type' => 'Symfony\Component\Form\Extension\Core\Type\FileType',
-                'extended-type' => 'Symfony\Component\Form\Extension\Core\Type\FileType',
+                'extended_type' => FileType::class,
+                'extended-type' => FileType::class,
             ]], $tag);
         } else {
             $this->assertSame([['alias' => 'file']], $tag);

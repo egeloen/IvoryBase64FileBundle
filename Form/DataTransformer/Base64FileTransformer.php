@@ -37,7 +37,8 @@ class Base64FileTransformer implements DataTransformerInterface
 
         if (!$value instanceof Base64FileInterface) {
             throw new TransformationFailedException(sprintf(
-                'Expected an "Ivory\Base64Bundle\Model\Base64FileInterface", got "%s".',
+                'Expected an "%s", got "%s".',
+                Base64FileInterface::class,
                 $this->getVariableType($value)
             ));
         }

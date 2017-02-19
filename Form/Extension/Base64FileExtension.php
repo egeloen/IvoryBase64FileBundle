@@ -12,11 +12,12 @@
 namespace Ivory\Base64FileBundle\Form\Extension;
 
 use Ivory\Base64FileBundle\Form\DataTransformer\Base64FileTransformer;
+use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\AbstractTypeExtension;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\Options;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 /**
  * @author GeLo <geloen.eric@gmail.com>
@@ -49,28 +50,16 @@ class Base64FileExtension extends AbstractTypeExtension
     /**
      * {@inheritdoc}
      */
-    public function setDefaultOptions(OptionsResolverInterface $resolver)
-    {
-        $this->configureOptions($resolver);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults([
-            'base64'     => $this->base64,
-            'data_class' => function (Options $options, $value) {
-                return !$options['base64'] ? $value : null;
-            },
-        ]);
-
-        if (method_exists($resolver, 'setDefault')) {
-            $resolver->setAllowedTypes('base64', 'bool');
-        } else {
-            $resolver->setAllowedTypes(['base64' => 'bool']);
-        }
+        $resolver
+            ->setDefaults([
+                'base64'     => $this->base64,
+                'data_class' => function (Options $options, $value) {
+                    return !$options['base64'] ? $value : null;
+                },
+            ])
+            ->setAllowedTypes('base64', 'bool');
     }
 
     /**
@@ -78,10 +67,6 @@ class Base64FileExtension extends AbstractTypeExtension
      */
     public function getExtendedType()
     {
-        if (method_exists('Symfony\Component\Form\AbstractType', 'getBlockPrefix')) {
-            return 'Symfony\Component\Form\Extension\Core\Type\FileType';
-        }
-
-        return 'file';
+        return method_exists(AbstractType::class, 'getBlockPrefix') ? FileType::class : 'file';
     }
 }

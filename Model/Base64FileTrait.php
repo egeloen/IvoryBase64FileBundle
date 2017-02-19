@@ -93,7 +93,7 @@ trait Base64FileTrait
             } else {
                 throw new \InvalidArgumentException(sprintf(
                     'The base64 file value must be a string or a resource, got "%s".',
-                    gettype($value)
+                    is_object($value) ? get_class($value) : gettype($value)
                 ));
             }
         } catch (\Exception $e) {

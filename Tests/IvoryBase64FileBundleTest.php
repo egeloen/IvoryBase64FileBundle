@@ -12,6 +12,7 @@
 namespace Ivory\Base64FileBundle\Tests;
 
 use Ivory\Base64FileBundle\IvoryBase64FileBundle;
+use Symfony\Component\HttpKernel\Bundle\Bundle;
 
 /**
  * @author GeLo <geloen.eric@gmail.com>
@@ -33,6 +34,6 @@ class IvoryBase64FileBundleTest extends \PHPUnit_Framework_TestCase
 
     public function testInheritance()
     {
-        $this->assertInstanceOf('Symfony\Component\HttpKernel\Bundle\Bundle', $this->bundle);
+        $this->assertInstanceOf(Bundle::class, $this->bundle);
     }
 }

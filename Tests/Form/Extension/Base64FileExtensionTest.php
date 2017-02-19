@@ -13,6 +13,9 @@ namespace Ivory\Base64FileBundle\Tests\Form\Extension;
 
 use Ivory\Base64FileBundle\Form\Extension\Base64FileExtension;
 use Ivory\Base64FileBundle\Model\Base64File;
+use Ivory\Base64FileBundle\Model\UploadedBase64File;
+use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Validator\ValidatorExtension;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\Form\Forms;
@@ -44,9 +47,7 @@ class Base64FileExtensionTest extends \PHPUnit_Framework_TestCase
             ->addExtension(new ValidatorExtension(Validation::createValidator()))
             ->getFormFactory();
 
-        $this->formType = method_exists('Symfony\Component\Form\AbstractType', 'getBlockPrefix')
-            ? 'Symfony\Component\Form\Extension\Core\Type\FileType'
-            : 'file';
+        $this->formType = method_exists(AbstractType::class, 'getBlockPrefix') ? FileType::class : 'file';
     }
 
     public function testSubmitFile()
@@ -76,7 +77,7 @@ class Base64FileExtensionTest extends \PHPUnit_Framework_TestCase
             ->submit($submitData = $this->getMinimalSubmitData());
 
         $this->assertTrue($form->isValid());
-        $this->assertInstanceOf('Ivory\Base64FileBundle\Model\UploadedBase64File', $data = $form->getData());
+        $this->assertInstanceOf(UploadedBase64File::class, $data = $form->getData());
 
         $this->assertSame($submitData['value'], $data->getData(true, false));
         $this->assertSame($submitData['name'], $data->getClientOriginalName());
@@ -91,7 +92,7 @@ class Base64FileExtensionTest extends \PHPUnit_Framework_TestCase
             ->submit($submitData = $this->getMaximalSubmitData());
 
         $this->assertTrue($form->isValid());
-        $this->assertInstanceOf('Ivory\Base64FileBundle\Model\UploadedBase64File', $data = $form->getData());
+        $this->assertInstanceOf(UploadedBase64File::class, $data = $form->getData());
 
         $this->assertSame($submitData['value'], $data->getData(true, false));
         $this->assertSame($submitData['name'], $data->getClientOriginalName());
@@ -161,7 +162,7 @@ class Base64FileExtensionTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @expectedException \Symfony\Component\Form\Exception\TransformationFailedException
-     * @expectedExceptionMessage Expected an "Ivory\Base64Bundle\Model\Base64FileInterface", got "stdClass".
+     * @expectedExceptionMessage Expected an "Ivory\Base64FileBundle\Model\Base64FileInterface", got "stdClass".
      */
     public function testInvalidInitialData()
     {

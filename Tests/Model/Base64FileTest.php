@@ -12,6 +12,8 @@
 namespace Ivory\Base64FileBundle\Tests\Model;
 
 use Ivory\Base64FileBundle\Model\Base64File;
+use Ivory\Base64FileBundle\Model\Base64FileInterface;
+use Symfony\Component\HttpFoundation\File\File;
 
 /**
  * @author GeLo <geloen.eric@gmail.com>
@@ -55,8 +57,8 @@ class Base64FileTest extends \PHPUnit_Framework_TestCase
     {
         $file = new Base64File($this->base64);
 
-        $this->assertInstanceOf('Ivory\Base64FileBundle\Model\Base64FileInterface', $file);
-        $this->assertInstanceOf('Symfony\Component\HttpFoundation\File\File', $file);
+        $this->assertInstanceOf(Base64FileInterface::class, $file);
+        $this->assertInstanceOf(File::class, $file);
     }
 
     public function testFromBase64ResourceToBase64Resource()
