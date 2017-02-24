@@ -1,7 +1,7 @@
 # README
 
 [![Travis Build Status](https://travis-ci.org/egeloen/IvoryBase64FileBundle.svg?branch=master)](http://travis-ci.org/egeloen/IvoryBase64FileBundle)
-[![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/tgfrgk40lhqebi85/branch/master?svg=true)](https://ci.appveyor.com/project/egeloen/ivorybase64filebundle)
+[![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/tgfrgk40lhqebi85/branch/master?svg=true)](https://ci.appveyor.com/project/egeloen/ivorybase64filebundle/branch/master)
 [![Code Coverage](https://scrutinizer-ci.com/g/egeloen/IvoryBase64FileBundle/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/egeloen/IvoryBase64FileBundle/?branch=master)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/egeloen/IvoryBase64FileBundle/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/egeloen/IvoryBase64FileBundle/?branch=master)
 [![Dependency Status](http://www.versioneye.com/php/egeloen:base54-file-bundle/badge.svg)](http://www.versioneye.com/php/egeloen:base64-file-bundle)
