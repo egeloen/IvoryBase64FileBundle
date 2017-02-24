@@ -2,6 +2,7 @@
 
 ### 1.0.1 (????-??-??)
 
+ * c09ae9a - Add appveyor.yml to gitattributes
  * a0f8d8b - Add AppVeyor support
 
 ### 1.0.0 (2017-02-19)
