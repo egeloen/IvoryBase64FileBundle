@@ -1,6 +1,6 @@
 # CHANGELOG
 
-### 1.0.1 (????-??-??)
+### 1.0.1 (2017-02-27)
 
  * 49ee982 - [README] Fix dependency badge
  * 0e3d8de - [README] Fix AppVeyor link
